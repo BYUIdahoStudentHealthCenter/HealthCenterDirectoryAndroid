@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.jakobhartman.healthcenterdirectory" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainMenu"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".centerDirectory"
+            android:label="Center Directory" >
+        </activity>
+        <activity
+            android:name=".employeeDirectory"
+            android:label="@string/title_activity_employee_directory" >
+        </activity>
+        <activity
+            android:name=".emergencyList"
+            android:label="@string/title_activity_emergency_list" >
+        </activity>
+        <activity
+            android:name=".settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
+    </application>
+
+</manifest>

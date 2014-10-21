@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Health Center Directory</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_health_center_directory">HealthCenterDirectory</string>
+    <string name="title_activity_center_directory">centerDirectory</string>
+    <string name="title_activity_employee_directory">Employee Directory</string>
+    <string name="title_activity_emergency_list">Emergency Call List</string>
+    <string name="title_activity_settings">Settings</string>
+
+</resources>
