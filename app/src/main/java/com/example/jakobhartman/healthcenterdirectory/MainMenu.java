@@ -17,6 +17,7 @@ import static android.widget.Toast.*;
 public class MainMenu extends Activity {
     ListView listView ;
 
+    //Our own public function
     public void goToSettings(MenuItem item){
         final Intent intent3 = new Intent(this, settings.class);
         startActivity(intent3);
@@ -25,7 +26,7 @@ public class MainMenu extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_main_menu); //Set the view
 
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
