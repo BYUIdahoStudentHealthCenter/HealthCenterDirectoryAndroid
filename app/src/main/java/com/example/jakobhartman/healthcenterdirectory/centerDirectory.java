@@ -21,7 +21,9 @@ import java.util.ArrayList;
 
 public class centerDirectory extends Activity {
     ListView listView ;
-
+    ArrayList<String> numbers;
+    ArrayList<String> contacts;
+    customListViewAdapter adapter;
 
     //Our own public function
     public void goToSettings(MenuItem item){
@@ -36,26 +38,28 @@ public class centerDirectory extends Activity {
 
         Firebase.setAndroidContext(this); // initialize firebase
         Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/");
-        final ArrayList<String> contacts = new ArrayList<String>();
-        final ArrayList<String> numbers = new ArrayList<String>();
+        contacts = new ArrayList<String>();
+        numbers = new ArrayList<String>();
+        contacts.add("Department");
+        numbers.add("");
+        listView = (ListView) findViewById(R.id.list);
+        adapter = new customListViewAdapter(this,contacts,numbers);
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);
 
 
-        final customListViewAdapter adapter = new customListViewAdapter(this,contacts,numbers);
         //ref.child("message").setValue("This is a test message!"); //writes to database
 
         ref.child("CenterNumbers").addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot data : dataSnapshot.getChildren()){
 
-                    for(DataSnapshot contact: data.getChildren()){
-                        contacts.add(contact.child("Name").getValue().toString());
-                        numbers.add(contact.child("Number").getValue().toString());
-                    }
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                   contacts.add(data.getName());
+                   numbers.add("");
                 }
-               
-               adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
            }
 
            @Override
@@ -64,13 +68,8 @@ public class centerDirectory extends Activity {
            }
         });
 
-
-
         // Get ListView object from xml
-        listView = (ListView) findViewById(R.id.list);
 
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
