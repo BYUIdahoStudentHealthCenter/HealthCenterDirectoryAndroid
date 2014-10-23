@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -23,6 +24,7 @@ public class centerDirectory extends Activity {
     ListView listView ;
     ArrayList<String> numbers;
     ArrayList<String> contacts;
+    ArrayList<String> departments;
     customListViewAdapter adapter;
 
     //Our own public function
@@ -35,12 +37,25 @@ public class centerDirectory extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_center_directory);
-
-        Firebase.setAndroidContext(this); // initialize firebase
-        Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/");
         contacts = new ArrayList<String>();
         numbers = new ArrayList<String>();
+        departments = new ArrayList<String>();
         contacts.add("Department");
+        departments.add("General");
+        departments.add("Front Desk Lines");
+        departments.add("Student Management");
+        departments.add("Other Student Employees");
+        departments.add("Providers");
+        departments.add("Professional Staff");
+        departments.add("Fax Numbers");
+        departments.add("Campus Contacts");
+        departments.add("Provo Numbers");
+        departments.add("DMBA");
+
+        contacts.addAll(departments);
+        for(int i = 0;i < 9;i++){
+            numbers.add("");
+        }
         numbers.add("");
         listView = (ListView) findViewById(R.id.list);
         adapter = new customListViewAdapter(this,contacts,numbers);
@@ -50,23 +65,7 @@ public class centerDirectory extends Activity {
 
         //ref.child("message").setValue("This is a test message!"); //writes to database
 
-        ref.child("CenterNumbers").addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
 
-
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                   contacts.add(data.getName());
-                   numbers.add("");
-                }
-                adapter.notifyDataSetChanged();
-           }
-
-           @Override
-           public void onCancelled(FirebaseError firebaseError) {
-
-           }
-        });
 
         // Get ListView object from xml
 
@@ -77,8 +76,11 @@ public class centerDirectory extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-                // Show Alert
+                if(position != 0){
+                    TextView textview = (TextView) listView.findViewById(R.id.txt1);
+                    String text = textview.getText().toString();
+                    System.out.println(text);
+                }
             }
 
         });
