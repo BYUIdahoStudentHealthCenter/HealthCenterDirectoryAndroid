@@ -2,6 +2,7 @@ package com.example.jakobhartman.healthcenterdirectory;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,6 +29,7 @@ public class settings extends Activity {
                              for (DataSnapshot contact : data.getChildren()){
                                  DepartmentContact newContact = new DepartmentContact();
                                  newContact.department = data.getName();
+
                                  newContact.name = contact.child("Name").getValue().toString();
                                  newContact.number = contact.child("Number").getValue().toString();
                                  newContact.save();

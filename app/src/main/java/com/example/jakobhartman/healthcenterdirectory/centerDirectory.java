@@ -18,14 +18,15 @@ import com.firebase.client.Logger;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import localDatabase.DepartmentContact;
 
 
 public class centerDirectory extends Activity {
     ListView listView ;
-    ArrayList<String> numbers;
     ArrayList<String> contacts;
-    ArrayList<String> departments;
-    customListViewAdapter adapter;
+    ArrayAdapter<String> adapter;
 
     //Our own public function
     public void goToSettings(MenuItem item){
@@ -38,27 +39,21 @@ public class centerDirectory extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_center_directory);
         contacts = new ArrayList<String>();
-        numbers = new ArrayList<String>();
-        departments = new ArrayList<String>();
         contacts.add("Department");
-        departments.add("General");
-        departments.add("Front Desk Lines");
-        departments.add("Student Management");
-        departments.add("Other Student Employees");
-        departments.add("Providers");
-        departments.add("Professional Staff");
-        departments.add("Fax Numbers");
-        departments.add("Campus Contacts");
-        departments.add("Provo Numbers");
-        departments.add("DMBA");
+        contacts.add("General");
+        contacts.add("Front Desk Lines");
+        contacts.add("Student Management");
+        contacts.add("Other Student Employees");
+        contacts.add("Providers");
+        contacts.add("Professional Staff");
+        contacts.add("Fax Numbers");
+        contacts.add("Campus Contacts");
+        contacts.add("Provo Numbers");
+        contacts.add("DMBA");
 
-        contacts.addAll(departments);
-        for(int i = 0;i < 9;i++){
-            numbers.add("");
-        }
-        numbers.add("");
         listView = (ListView) findViewById(R.id.list);
-        adapter = new customListViewAdapter(this,contacts,numbers);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, contacts);
         // Assign adapter to ListView
         listView.setAdapter(adapter);
 
@@ -68,7 +63,7 @@ public class centerDirectory extends Activity {
 
 
         // Get ListView object from xml
-
+        final Intent intent = new Intent(this,centerDetails.class);
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,9 +72,9 @@ public class centerDirectory extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 if(position != 0){
-                    TextView textview = (TextView) listView.findViewById(R.id.txt1);
-                    String text = textview.getText().toString();
-                    System.out.println(text);
+                    String text = contacts.get(position);
+                    intent.putExtra("Contacts",text);
+                    startActivity(intent);
                 }
             }
 
