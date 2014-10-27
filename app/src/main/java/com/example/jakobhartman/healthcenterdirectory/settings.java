@@ -29,7 +29,6 @@ public class settings extends Activity {
                              for (DataSnapshot contact : data.getChildren()){
                                  DepartmentContact newContact = new DepartmentContact();
                                  newContact.department = data.getName();
-
                                  newContact.name = contact.child("Name").getValue().toString();
                                  newContact.number = contact.child("Number").getValue().toString();
                                  newContact.save();

@@ -23,59 +23,36 @@ import localDatabase.DepartmentContact;
 
 
 public class centerDetails extends Activity {
-
+    ArrayList<String> contactNames;
+    ArrayList<String> phoneNumbers;
+    ListView list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_center_details);
-
+        list = (ListView) findViewById(R.id.listView);
         Intent intent = getIntent(); //Gets the extra data passed in the intent
 
         String text = intent.getStringExtra("Contacts"); //Gets the string value extra labeled "Contacts"
-        TextView textView = (TextView) findViewById(R.id.textOut);
-                textView.setText(text.toString());
+
 
         /**********************************************************************************
          * Local Database Fill page with  active android
          **********************************************************************************/
 
-        DepartmentContact
-        List<DepartmentContact> depContact = select.all().from(DepartmentContact.class).execute();
+        DepartmentContact getDatabase = new DepartmentContact();
+        List<DepartmentContact> contacts = getDatabase.getContacts(text);
 
-        for (DepartmentContact details:depContact) {
-            textView.append(details.toString());
+        contactNames.add("Name");
+        phoneNumbers.add("Number");
+
+        for(DepartmentContact contact : contacts){
+            contactNames.add(contact.name);
+            phoneNumbers.add(contact.number);
         }
+        customListViewAdapter customList = new customListViewAdapter(this,contactNames,phoneNumbers);
 
-
-
-
-        /*****************************************************************************
-         * Test FireBase
-         *****************************************************************************/
-        // Connect to the firebase database
-        Firebase.setAndroidContext(this); // initialize firebase
-        Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/CenterNumbers");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){ // Gets the department
-                    for (DataSnapshot contact : data.getChildren()){ // Gets the children of Department
-
-                        String department = data.getName().toString(); //This returns "centerNumbers"
-                        Log.i("database:department",department);
-                        String name = contact.child("Name").getValue().toString();
-                        Log.i("database:name", name);
-                        String number = contact.child("Number").getValue().toString();
-                        Log.i("database:number", number);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        list.setAdapter(customList);
     }
 
 
