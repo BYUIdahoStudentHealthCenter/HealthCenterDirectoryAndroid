@@ -29,24 +29,26 @@ public class centerDetails extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        contactNames = new ArrayList<String>();
+        phoneNumbers = new ArrayList<String>();
         setContentView(R.layout.activity_center_details);
         list = (ListView) findViewById(R.id.listView);
         Intent intent = getIntent(); //Gets the extra data passed in the intent
 
         String text = intent.getStringExtra("Contacts"); //Gets the string value extra labeled "Contacts"
 
-
+        System.out.println(text);
         /**********************************************************************************
          * Local Database Fill page with  active android
          **********************************************************************************/
 
         DepartmentContact getDatabase = new DepartmentContact();
         List<DepartmentContact> contacts = getDatabase.getContacts(text);
-
         contactNames.add("Name");
         phoneNumbers.add("Number");
 
         for(DepartmentContact contact : contacts){
+            System.out.println(contact.name);
             contactNames.add(contact.name);
             phoneNumbers.add(contact.number);
         }

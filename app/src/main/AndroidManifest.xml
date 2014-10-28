@@ -4,12 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
+        android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data android:name="AA_DB_NAME" android:value="cont.db" />
         <activity
             android:name=".MainMenu"
             android:label="@string/app_name" >
