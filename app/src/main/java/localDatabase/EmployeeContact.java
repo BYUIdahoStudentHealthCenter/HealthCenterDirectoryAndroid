@@ -37,17 +37,27 @@ public class EmployeeContact extends HealthcenterModel {
         super();
     }
 
-    public List<DepartmentContact> getContactsByPosition(String name){
+    public List<EmployeeContact> getContactsByPosition(String name){
         return new Select().from(EmployeeContact.class).where("position='" + name +"'").execute();
     }
 
-    public List<DepartmentContact> getContactsByTier(String name){
+    public List<EmployeeContact> getContactsByTier(String name){
         return new Select().from(EmployeeContact.class).where("tier='" + name +"'").execute();
     }
 
-    public List<DepartmentContact> getContactsByStatus(String name){
+    public List<EmployeeContact> getContactsByStatus(String name){
         return new Select().from(EmployeeContact.class).where("status='" + name +"'").execute();
     }
+
+    public  List<EmployeeContact>getContactsByFirstName(String name){
+        return new Select().from(EmployeeContact.class).where("firstName='" + name +"'").execute();
+    }
+
+
+    public List<EmployeeContact> getAllEmployees(){
+        return new Select().from(EmployeeContact.class).execute();
+    }
+
 
 
 }

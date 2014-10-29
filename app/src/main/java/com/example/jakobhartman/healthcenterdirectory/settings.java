@@ -2,13 +2,13 @@ package com.example.jakobhartman.healthcenterdirectory;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -31,7 +31,8 @@ public class settings extends Activity {
     public void syncWithDatabase(View v){
         Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/CenterNumbers");
         Firebase employees = new Firebase("https://boiling-fire-7455.firebaseio.com/Employee");
-
+        new Delete().from(DepartmentContact.class).execute();
+        new Delete().from(EmployeeContact.class).execute();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
