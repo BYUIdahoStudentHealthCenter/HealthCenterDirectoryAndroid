@@ -26,4 +26,9 @@ public class DepartmentContact extends HealthcenterModel {
         return new Select().from(DepartmentContact.class).where("department='" + departmentName +"'").execute();
     }
 
+    public List<DepartmentContact>getAllDepartments(){
+        return new Select().from(DepartmentContact.class).execute();
+    }
+
+
 }

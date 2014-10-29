@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class centerDetails extends Activity {
         Intent intent = getIntent(); //Gets the extra data passed in the intent
 
         String text = intent.getStringExtra("Contacts"); //Gets the string value extra labeled "Contacts"
+        setTitle(text);
 
         System.out.println(text);
         /**********************************************************************************

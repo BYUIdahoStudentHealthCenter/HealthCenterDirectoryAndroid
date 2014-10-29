@@ -1,14 +1,17 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
+import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -28,7 +31,7 @@ public class settings extends Activity {
 
     }
 
-    public void syncWithDatabase(View v){
+    public void syncWithDatabase(){
         Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/CenterNumbers");
         Firebase employees = new Firebase("https://boiling-fire-7455.firebaseio.com/Employee");
         new Delete().from(DepartmentContact.class).execute();
@@ -86,10 +89,10 @@ public class settings extends Activity {
                             newContact.tier = data.child("Tier").getValue().toString();
                             newContact.save();
                             i++;
-
                     }
-                    System.out.println(i);
                     ActiveAndroid.setTransactionSuccessful();
+                    TextView textView =(TextView) findViewById(R.id.textView);
+                    textView.setText("Found " + i + " Contacts");
                 }
                 finally {
                     ActiveAndroid.endTransaction();
@@ -104,8 +107,40 @@ public class settings extends Activity {
 
 
     }
+    int p = 0;
+    public void loginAndSync(View v){
+        EditText usernameText = (EditText) findViewById(R.id.editText);
+        String username = usernameText.getText().toString();
+
+        EditText passwordText = (EditText) findViewById(R.id.editText2);
+        String password = passwordText.getText().toString();
+
+      Firebase  ref = new Firebase("https://boiling-fire-7455.firebaseio.com");
+                ref.authWithPassword(username,password,new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        syncWithDatabase();
+                    }
+
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        TextView textView =(TextView) findViewById(R.id.textView);
+                        p++;
+                        if(p == 3){
+                            new Delete().from(DepartmentContact.class).execute();
+                            new Delete().from(EmployeeContact.class).execute();
+
+                            textView.setText("Data Has Been Wiped - Please try again in 5 minutes");
+                        }
+                        int o = 3 - p;
+                        if(o > 0){
+                            textView.setText( firebaseError.getMessage() + " - " + o + " Attempts Left" );
+                        }
 
 
+                    }
+                });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -123,5 +158,11 @@ public class settings extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this,MainMenu.class);
+        startActivity(intent);
     }
 }

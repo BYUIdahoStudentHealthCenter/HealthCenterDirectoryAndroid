@@ -11,11 +11,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import localDatabase.DepartmentContact;
+import localDatabase.EmployeeContact;
+
 import static android.widget.Toast.*;
 
 
 public class MainMenu extends Activity {
     ListView listView ;
+    List<DepartmentContact> departments;
+    List<EmployeeContact> employees;
 
     //Our own public function
     public void goToSettings(MenuItem item){
@@ -30,14 +38,28 @@ public class MainMenu extends Activity {
 
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
+        DepartmentContact center = new DepartmentContact();
+        EmployeeContact persons = new EmployeeContact();
+         departments = center.getAllDepartments();
+         employees = persons.getAllEmployees();
+        ArrayList<String> values = new ArrayList<String>();
+        if(departments.size() < 1){
+            values.add("No Data...");
 
+        }
+        else{
+            values.add("Health Center Directory");
+        }
+        if(employees.size() < 1){
+            values.add("No Data...");
+            values.add("No Data...");
+        }
+        else{
+            values.add("Health Center Employee Directory");
+            values.add("Emergency Calling Tree");
+        }
         // Defined Array values to show in ListView
-        String[] values = new String[] {
-                "Health Center Directory",
-                "Health Center Employee Directory",
-                "Emergency Calling Tree",
-                "Settings/Sync",
-        };
+        values.add("Sync/Settings");
 
         // Define a new Adapter
         // First parameter - Context
@@ -67,19 +89,25 @@ public class MainMenu extends Activity {
                 // ListView Clicked item index
                 int itemP = position;
 
-                // ListView Clicked item value
-                String  itemValue    = (String) listView.getItemAtPosition(position);
-
                 // Show Alert
                 switch (itemP){
                     case 0:
-                        startActivity(intent0);
+                        if(departments.size() > 0){
+                            startActivity(intent0);
+                        }
+
                         break;
                     case 1:
-                        startActivity(intent1);
+                        if(employees.size() > 0){
+                            startActivity(intent1);
+                        }
+
                         break;
                     case 2:
-                        startActivity(intent2);
+                        if(employees.size() > 0){
+                            startActivity(intent2);
+                        }
+
                         break;
                     case 3:
                         startActivity(intent3);
