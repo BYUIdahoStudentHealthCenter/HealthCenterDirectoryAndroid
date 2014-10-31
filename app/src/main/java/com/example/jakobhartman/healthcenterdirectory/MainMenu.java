@@ -48,14 +48,14 @@ public class MainMenu extends Activity {
 
         }
         else{
-            values.add("Health Center Directory");
+            values.add("Department Directory");
         }
         if(employees.size() < 1){
             values.add("No Data...");
             values.add("No Data...");
         }
         else{
-            values.add("Health Center Employee Directory");
+            values.add("Employee Directory");
             values.add("Emergency Calling Tree");
         }
         // Defined Array values to show in ListView

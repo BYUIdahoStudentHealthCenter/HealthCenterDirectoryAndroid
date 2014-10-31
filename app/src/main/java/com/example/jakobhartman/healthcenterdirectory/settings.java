@@ -109,7 +109,7 @@ public class settings extends Activity {
     }
     int p = 0;
     public void loginAndSync(View v){
-        EditText usernameText = (EditText) findViewById(R.id.editText);
+        EditText usernameText = (EditText) findViewById(R.id.editText1);
         String username = usernameText.getText().toString();
 
         EditText passwordText = (EditText) findViewById(R.id.editText2);

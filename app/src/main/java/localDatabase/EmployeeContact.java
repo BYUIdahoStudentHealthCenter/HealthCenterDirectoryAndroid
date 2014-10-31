@@ -12,6 +12,8 @@ import java.util.List;
 @Table(name = "employeeContact")
 public class EmployeeContact extends HealthcenterModel {
 
+    @Column(name = "department")
+    public  String department;
     @Column(name = "departmentEmail")
     public String departmentEmail;
     @Column(name = "departmentNumber")
@@ -52,6 +54,12 @@ public class EmployeeContact extends HealthcenterModel {
     public  List<EmployeeContact>getContactsByFirstName(String name){
         return new Select().from(EmployeeContact.class).where("firstName='" + name +"'").execute();
     }
+
+    public List<EmployeeContact>getContactsByDepartment(String name){
+        return new Select().from(EmployeeContact.class).where("department='" + name + "'").execute();
+    }
+    
+
 
 
     public List<EmployeeContact> getAllEmployees(){
