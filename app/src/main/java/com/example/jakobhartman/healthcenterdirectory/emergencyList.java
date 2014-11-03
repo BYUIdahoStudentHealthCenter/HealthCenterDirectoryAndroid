@@ -11,6 +11,7 @@ import java.util.List;
 
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
+import localDatabase.Parent;
 import localDatabase.loginInfo;
 
 
@@ -30,7 +31,9 @@ public class emergencyList extends Activity {
         EmployeeContact getDatabase = new EmployeeContact();
         String tier = getDatabase.getTier(username).toString();
 
-        // Search for tier in Tier table, get children and grandchildren.
+        // Search parent for parentID
+        Parent getParentdb = new Parent();
+        long parent_id = getParentdb.Id(tier);
 
 
 

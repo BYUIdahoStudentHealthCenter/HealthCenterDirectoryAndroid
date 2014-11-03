@@ -15,4 +15,8 @@ public class Child extends HealthcenterModel {
     @Column(name = "parent_value")
     public  String child_value;
 
+    public Child(){
+        super();
+    }
+
 }

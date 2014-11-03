@@ -15,4 +15,8 @@ public class Grandchild extends HealthcenterModel {
     @Column(name = "grandchild_value")
     public  String grandchild_value;
 
+    public Grandchild(){
+        super();
+    }
+
 }
