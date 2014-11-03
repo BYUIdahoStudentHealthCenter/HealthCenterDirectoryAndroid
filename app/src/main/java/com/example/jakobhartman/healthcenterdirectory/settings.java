@@ -19,6 +19,7 @@ import com.firebase.client.ValueEventListener;
 
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
+import localDatabase.loginInfo;
 
 
 public class settings extends Activity {
@@ -110,16 +111,21 @@ public class settings extends Activity {
     int p = 0;
     public void loginAndSync(View v){
         EditText usernameText = (EditText) findViewById(R.id.editText1);
-        String username = usernameText.getText().toString();
+        final String username = usernameText.getText().toString();
 
         EditText passwordText = (EditText) findViewById(R.id.editText2);
-        String password = passwordText.getText().toString();
+        final String password = passwordText.getText().toString();
 
       Firebase  ref = new Firebase("https://boiling-fire-7455.firebaseio.com");
                 ref.authWithPassword(username,password,new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         syncWithDatabase();
+                        loginInfo storeUsername = new loginInfo();
+                        new Delete().from(loginInfo.class).execute();
+                        storeUsername.username = username;
+                        storeUsername.password = password;
+                        storeUsername.save();
                     }
 
                     @Override
@@ -136,7 +142,6 @@ public class settings extends Activity {
                         if(o > 0){
                             textView.setText( firebaseError.getMessage() + " - " + o + " Attempts Left" );
                         }
-
 
                     }
                 });

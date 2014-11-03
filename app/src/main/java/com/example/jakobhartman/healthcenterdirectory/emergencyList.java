@@ -4,14 +4,40 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
+
+import localDatabase.DepartmentContact;
+import localDatabase.EmployeeContact;
+import localDatabase.loginInfo;
 
 
 public class emergencyList extends Activity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency_list);
+
+        loginInfo storeUsername = new loginInfo();
+        long i = 1;
+        String username = storeUsername.load(loginInfo.class,i).username;
+
+        // Get the contact's tier
+        EmployeeContact getDatabase = new EmployeeContact();
+        String tier = getDatabase.getTier(username).toString();
+
+        // Search for tier in Tier table, get children and grandchildren.
+
+
+
+
+
+
+
     }
 
 

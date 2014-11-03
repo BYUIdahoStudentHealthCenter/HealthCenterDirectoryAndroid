@@ -17,7 +17,4 @@ public class loginInfo extends Model{
     @Column(name = "password")
     public String password;
 
-    public List<loginInfo> getLoginCreds(){
-        return new Select().from(loginInfo.class).execute();
-    }
 }
