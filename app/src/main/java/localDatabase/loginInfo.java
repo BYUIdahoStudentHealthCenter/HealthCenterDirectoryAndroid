@@ -17,4 +17,6 @@ public class loginInfo extends Model{
     @Column(name = "password")
     public String password;
 
+    public loginInfo() {super();}
+
 }

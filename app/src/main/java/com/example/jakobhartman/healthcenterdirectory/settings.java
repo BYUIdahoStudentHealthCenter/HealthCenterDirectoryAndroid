@@ -19,6 +19,7 @@ import com.firebase.client.ValueEventListener;
 
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
+import localDatabase.Tier;
 import localDatabase.loginInfo;
 
 
@@ -29,14 +30,20 @@ public class settings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Firebase.setAndroidContext(this); // initialize firebase
+        Tier tiers = new Tier();
+        tiers.parent = "1";
+
 
     }
 
     public void syncWithDatabase(){
         Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/CenterNumbers");
         Firebase employees = new Firebase("https://boiling-fire-7455.firebaseio.com/Employee");
+        Firebase tiers = new Firebase ("https://boiling-fire-7455.firebaseio.com/Tier");
         new Delete().from(DepartmentContact.class).execute();
         new Delete().from(EmployeeContact.class).execute();
+        new Delete().from(Tier.class).execute();
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,6 +114,48 @@ public class settings extends Activity {
             }
         });
 
+        tiers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ActiveAndroid.beginTransaction();
+                try {
+                        DataSnapshot start = dataSnapshot.child("1");
+                        Tier tierTable = new Tier();
+                        tierTable.parent = "";
+                        tierTable.child = start.getName();
+
+                        for(DataSnapshot tier2 : start.getChildren()){
+                            System.out.println(tier2.getName());
+                            for(DataSnapshot tier3 : tier2.getChildren()){
+                                System.out.println(tier3.getName());
+                                for(DataSnapshot tier4 : tier3.getChildren()){
+                                    System.out.println(tier4.getName());
+                                    for(DataSnapshot tier5 : tier4.getChildren()){
+                                        System.out.println(tier5.getName());
+    //                                for(DataSnapshot tier6 : tier5.getChildren()){
+    //                                  System.out.println(tier6.getName());
+    //                                }
+                                    }
+                                }
+                            }
+                        }
+
+                    ActiveAndroid.setTransactionSuccessful();
+                    //System.out.println(i);
+                }
+                finally {
+                    ActiveAndroid.endTransaction();
+                }
+            }
+
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
 
     }
     int p = 0;
@@ -121,12 +170,13 @@ public class settings extends Activity {
                 ref.authWithPassword(username,password,new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
-                        syncWithDatabase();
-                        loginInfo storeUsername = new loginInfo();
                         new Delete().from(loginInfo.class).execute();
+                        loginInfo storeUsername = new loginInfo();
                         storeUsername.username = username;
                         storeUsername.password = password;
                         storeUsername.save();
+                        syncWithDatabase();
+
                     }
 
                     @Override

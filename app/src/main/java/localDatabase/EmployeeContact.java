@@ -60,7 +60,7 @@ public class EmployeeContact extends HealthcenterModel {
     }
 
     public List <EmployeeContact>getTier(String email){
-        return new Select().from(EmployeeContact.class).where("email='"+ email + "'").execute();
+        return new Select().from(EmployeeContact.class).where("personalEmail='"+ email + "'").execute();
     }
 
     public List<EmployeeContact> getAllEmployees(){

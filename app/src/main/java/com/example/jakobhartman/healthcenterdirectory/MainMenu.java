@@ -16,6 +16,7 @@ import java.util.List;
 
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
+import localDatabase.Tier;
 
 import static android.widget.Toast.*;
 
@@ -40,6 +41,8 @@ public class MainMenu extends Activity {
         listView = (ListView) findViewById(R.id.list);
         DepartmentContact center = new DepartmentContact();
         EmployeeContact persons = new EmployeeContact();
+
+
          departments = center.getAllDepartments();
          employees = persons.getAllEmployees();
         ArrayList<String> values = new ArrayList<String>();
