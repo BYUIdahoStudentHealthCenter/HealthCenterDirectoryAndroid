@@ -38,7 +38,11 @@
         </activity>
         <activity
             android:name=".centerDetails"
-            android:label="@string/title_activity_center_details" >
+            android:label="Center Details" >
+        </activity>
+        <activity
+            android:name=".employeeDetails"
+            android:label="Employee Details" >
         </activity>
     </application>
 

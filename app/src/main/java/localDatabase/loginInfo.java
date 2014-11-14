@@ -19,4 +19,8 @@ public class loginInfo extends Model{
 
     public loginInfo() {super();}
 
+    public List<loginInfo> getUsername(){
+        return new Select().from(loginInfo.class).execute();
+    }
+
 }

@@ -43,8 +43,8 @@ public class EmployeeContact extends HealthcenterModel {
         return new Select().from(EmployeeContact.class).where("position='" + name +"'").execute();
     }
 
-    public List<EmployeeContact> getContactsByTier(String name){
-        return new Select().from(EmployeeContact.class).where("tier='" + name +"'").execute();
+    public List<EmployeeContact> getContactsByTier(String tier){
+        return new Select().from(EmployeeContact.class).where("tier='" + tier +"'").execute();
     }
 
     public List<EmployeeContact> getContactsByStatus(String name){
@@ -59,7 +59,7 @@ public class EmployeeContact extends HealthcenterModel {
         return new Select().from(EmployeeContact.class).where("department='" + name + "'").execute();
     }
 
-    public List <EmployeeContact>getTier(String email){
+    public List<EmployeeContact>getTier(String email){
         return new Select().from(EmployeeContact.class).where("personalEmail='"+ email + "'").execute();
     }
 

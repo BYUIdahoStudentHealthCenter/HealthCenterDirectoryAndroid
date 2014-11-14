@@ -30,9 +30,6 @@ public class settings extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Firebase.setAndroidContext(this); // initialize firebase
-        Tier tiers = new Tier();
-        tiers.parent = "1";
-
 
     }
 
@@ -62,7 +59,6 @@ public class settings extends Activity {
                         }
                     }
                     ActiveAndroid.setTransactionSuccessful();
-                    System.out.println(i);
                 }
                 finally {
                     ActiveAndroid.endTransaction();
@@ -70,7 +66,6 @@ public class settings extends Activity {
                 TextView textView =(TextView) findViewById(R.id.textView);
                 textView.setText("Found " + i + " Contacts");
             }
-
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
@@ -118,45 +113,111 @@ public class settings extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                /*********************************
+                 *  Add statements to insert to Database
+                 *
+                 ***********************************/
                 ActiveAndroid.beginTransaction();
                 try {
                         DataSnapshot start = dataSnapshot.child("1");
-                        Tier tierTable = new Tier();
-                        tierTable.parent = "";
-                        tierTable.child = start.getName();
+                        Tier myTier = new Tier();
+                        myTier.parent = "";
+                        myTier.child = start.getName();
+
+                        String parent = "1";
+                        String child = "1";
+                        myTier.save();
 
                         for(DataSnapshot tier2 : start.getChildren()){
-                            System.out.println(tier2.getName());
+                            Tier tierTable1 = new Tier();
+                            child = tier2.getName();
+                            System.out.println("Parent = "+parent+"Child = "+child);
+                            tierTable1.parent = parent.toString();
+                            tierTable1.child = child.toString();
+
+                            parent = child;
                             for(DataSnapshot tier3 : tier2.getChildren()){
-                                System.out.println(tier3.getName());
+                                Tier tierTable2 = new Tier();
+                                child = tier3.getName();
+                                System.out.println("Parent = "+parent+"Child = "+child);
+                                tierTable2.parent = parent.toString();
+                                tierTable2.child = child.toString();
+
+                                parent = child;
                                 for(DataSnapshot tier4 : tier3.getChildren()){
-                                    System.out.println(tier4.getName());
-                                    for(DataSnapshot tier5 : tier4.getChildren()){
-                                        System.out.println(tier5.getName());
-    //                                for(DataSnapshot tier6 : tier5.getChildren()){
-    //                                  System.out.println(tier6.getName());
-    //                                }
+                                    Tier tierTable3 = new Tier();
+                                    child = tier4.getName();
+                                    System.out.println("Parent = "+parent+"Child = "+child);
+                                    tierTable3.parent = parent.toString();
+                                    tierTable3.child = child.toString();
+
+                                    parent = child;
+                                    if (tier4.hasChildren())
+                                    {
+                                        parent = child;
+                                        for(DataSnapshot tier5 : tier4.getChildren()){
+                                            Tier tierTable4 = new Tier();
+                                            child = tier5.getName();
+                                            System.out.println("Parent = "+parent+"Child = "+child);
+                                            tierTable4.parent = parent.toString();
+                                            tierTable4.child = child.toString();
+
+                                            parent = child;
+                                            if (tier5.hasChildren())
+                                            {
+                                                for(DataSnapshot tier6 : tier5.getChildren()){
+                                                    Tier tierTable5 = new Tier();
+                                                    child = tier6.getName();
+                                                    System.out.println("Parent = "+parent+"Child = "+child);
+                                                    tierTable5.parent = parent.toString();
+                                                    tierTable5.child = child.toString();
+
+                                                    parent = child;
+                                                    if (tier6.hasChildren())
+                                                    {
+                                                        for (DataSnapshot tier7:tier6.getChildren())
+                                                        {
+                                                            Tier tierTable6 = new Tier();
+                                                            child = tier7.getName();
+                                                            System.out.println("Parent = "+parent+"Child = "+child);
+                                                            tierTable6.parent = parent.toString();
+                                                            tierTable6.child = child.toString();
+
+                                                            parent = child;
+                                                            tierTable6.save();
+                                                        }
+                                                        parent = tier5.getName();
+                                                    }
+                                                    tierTable5.save();
+                                                }
+                                                parent = tier4.getName();
+                                            }
+                                            tierTable4.save();
+                                        }
+                                        parent = tier3.getName();
                                     }
+                                    tierTable3.save();
                                 }
+                                parent = tier2.getName();
+                                tierTable2.save();
                             }
+                            parent = "1";
+                            tierTable1.save();
                         }
 
                     ActiveAndroid.setTransactionSuccessful();
-                    //System.out.println(i);
                 }
                 finally {
                     ActiveAndroid.endTransaction();
                 }
             }
 
-
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
+
             }
         });
-
-
     }
     int p = 0;
     public void loginAndSync(View v){
