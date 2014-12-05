@@ -88,7 +88,7 @@ public class emergencyList extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Log.i("clicked on: ", ""+position);
-                EmployeeContact details = mainList.get(position).get(0);
+                EmployeeContact details = mainList.get(position).get(0); // BUG, doesn't account for filtered searches
                 intent.putExtra("department", details.department);
                 intent.putExtra("department_email", details.departmentEmail);
                 intent.putExtra("department_number", details.departmentNumber);

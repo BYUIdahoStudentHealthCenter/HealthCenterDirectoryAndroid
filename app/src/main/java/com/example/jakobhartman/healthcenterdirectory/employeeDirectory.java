@@ -10,6 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -28,10 +31,12 @@ public class employeeDirectory extends Activity {
     ArrayList<String> personId;
     ArrayList<EmployeeContact> mainList = new ArrayList<EmployeeContact>();
     ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_directory);
+
 
         filters = new ArrayList<String>();
         employeeList = new ArrayList<String>();
@@ -99,7 +104,7 @@ public class employeeDirectory extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                EmployeeContact details = mainList.get(position-1);
+                EmployeeContact details = mainList.get(position-1); //doesn't account for filtered searches
                 intent.putExtra("department", details.department);
                 intent.putExtra("department_email", details.departmentEmail);
                 intent.putExtra("department_number", details.departmentNumber);

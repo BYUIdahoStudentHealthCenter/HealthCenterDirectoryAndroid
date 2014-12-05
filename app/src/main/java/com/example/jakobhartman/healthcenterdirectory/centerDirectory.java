@@ -58,6 +58,7 @@ public class centerDirectory extends Activity {
         listView.setAdapter(adapter);
 
 
+
         //ref.child("message").setValue("This is a test message!"); //writes to database
 
 

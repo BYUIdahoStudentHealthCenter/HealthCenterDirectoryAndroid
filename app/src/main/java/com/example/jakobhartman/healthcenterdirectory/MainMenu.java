@@ -56,10 +56,12 @@ public class MainMenu extends Activity {
         if(employees.size() < 1){
             values.add("No Data...");
             values.add("No Data...");
+            values.add("No Data...");
         }
         else{
             values.add("Employee Directory");
             values.add("Emergency Calling Tree");
+            values.add("Photo Directory");
         }
         // Defined Array values to show in ListView
         values.add("Sync/Settings");
@@ -80,7 +82,8 @@ public class MainMenu extends Activity {
         final Intent intent0 = new Intent(this, centerDirectory.class);
         final Intent intent1 = new Intent(this, employeeDirectory.class);
         final Intent intent2 = new Intent(this, emergencyList.class);
-        final Intent intent3 = new Intent(this, settings.class);
+        final Intent intent3 = new Intent(this, photoDirectory.class);
+        final Intent intent4 = new Intent(this, settings.class);
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,7 +116,12 @@ public class MainMenu extends Activity {
 
                         break;
                     case 3:
-                        startActivity(intent3);
+                        if(employees.size() > 0) {
+                            startActivity(intent3);
+                        }
+                        break;
+                    case 4:
+                        startActivity(intent4);
                         break;
                 }
             }
