@@ -81,12 +81,14 @@ public class employeeDirectory extends Activity {
                     List<EmployeeContact> getDepartmentList = employ.getContactsByDepartment(selected);
                     employeeList.clear();
                     position.clear();
+                    mainList.clear(); //NEW
                     employeeList.add("Contact");
                     position.add("Position");
                     for(EmployeeContact person : getDepartmentList){
 
                         employeeList.add(person.firstName + " " + person.lastName);
                         position.add(person.position);
+                        mainList.add(person); //NEW
                         listAdapter.notifyDataSetChanged();
                     }
                 }
