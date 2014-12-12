@@ -48,7 +48,7 @@ public class centerDirectory extends Activity {
         contacts.add("Professional Staff");
         contacts.add("Fax Numbers");
         contacts.add("Campus Contacts");
-        contacts.add("Provo Numbers");
+        contacts.add("Provo Contacts");
         contacts.add("DMBA");
 
         listView = (ListView) findViewById(R.id.list);
@@ -56,10 +56,6 @@ public class centerDirectory extends Activity {
                 android.R.layout.simple_list_item_1, android.R.id.text1, contacts);
         // Assign adapter to ListView
         listView.setAdapter(adapter);
-
-
-
-        //ref.child("message").setValue("This is a test message!"); //writes to database
 
 
 

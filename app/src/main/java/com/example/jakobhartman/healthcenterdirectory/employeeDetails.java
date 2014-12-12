@@ -1,11 +1,16 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -50,6 +55,28 @@ public class employeeDetails extends Activity {
         customListViewAdapter customList = new customListViewAdapter(this,description,details);
 
         list.setAdapter(customList);
+
+        final Intent call = new Intent(Intent.ACTION_CALL);
+        call.setData(Uri.parse(details.get(6)));
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+               if (position == 6) {
+                   try {
+                       startActivity(call);
+                       finish();
+                       System.out.print("calling..");
+                   } catch (ActivityNotFoundException ex) {
+                       Toast.makeText(employeeDetails.this,"Call Failed",Toast.LENGTH_SHORT).show();
+                       System.out.print(ex.getMessage());
+                   }
+
+               }
+
+            }
+        });
 
     }
 
