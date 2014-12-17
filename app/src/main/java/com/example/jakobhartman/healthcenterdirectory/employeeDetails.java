@@ -56,8 +56,8 @@ public class employeeDetails extends Activity {
 
         list.setAdapter(customList);
 
-        final Intent call = new Intent(Intent.ACTION_CALL);
-        call.setData(Uri.parse(details.get(6)));
+        final Intent call = new Intent(Intent.ACTION_DIAL);
+        call.setData(Uri.parse("tel:"+details.get(6)));
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,17 +67,13 @@ public class employeeDetails extends Activity {
                    try {
                        startActivity(call);
                        finish();
-                       System.out.print("calling..");
                    } catch (ActivityNotFoundException ex) {
                        Toast.makeText(employeeDetails.this,"Call Failed",Toast.LENGTH_SHORT).show();
                        System.out.print(ex.getMessage());
                    }
-
                }
-
             }
         });
-
     }
 
     @Override

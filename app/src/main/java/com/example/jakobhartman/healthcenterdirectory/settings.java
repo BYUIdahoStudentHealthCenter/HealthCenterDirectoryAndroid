@@ -275,6 +275,7 @@ public class settings extends Activity {
                 storeUsername.password = password;
                 storeUsername.save();
                 syncWithDatabase();
+                finish();
 
             }
 
