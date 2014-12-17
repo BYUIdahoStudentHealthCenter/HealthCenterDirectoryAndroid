@@ -59,6 +59,8 @@ public class employeeDirectory extends Activity {
         List<EmployeeContact> list = employees.getAllEmployees();
         for(EmployeeContact person: list){
             personId.add(person.getId().toString());
+
+            //Populate the different departments
             filters.add(person.department);
             employeeList.add(person.firstName + " " + person.lastName);
             position.add(person.position);
@@ -78,14 +80,15 @@ public class employeeDirectory extends Activity {
                 if(i != 0){
                     String selected = filters.get(i);
 
+                    //Results displayed based on selected category
                     List<EmployeeContact> getDepartmentList = employ.getContactsByDepartment(selected);
                     employeeList.clear();
                     position.clear();
                     mainList.clear(); //NEW
                     employeeList.add("Contact");
                     position.add("Position");
-                    for(EmployeeContact person : getDepartmentList){
 
+                    for(EmployeeContact person : getDepartmentList){
                         employeeList.add(person.firstName + " " + person.lastName);
                         position.add(person.position);
                         mainList.add(person); //NEW
@@ -93,6 +96,20 @@ public class employeeDirectory extends Activity {
                     }
                 }
                 else{
+                    //Else, if they select "Department" it will display everyone
+                    List<EmployeeContact> getDepartmentList = employ.getAllEmployees();
+                    employeeList.clear();
+                    position.clear();
+                    mainList.clear(); //NEW
+                    employeeList.add("Contact");
+                    position.add("Position");
+
+                    for(EmployeeContact person : getDepartmentList){
+                        employeeList.add(person.firstName + " " + person.lastName);
+                        position.add(person.position);
+                        mainList.add(person); //NEW
+                        listAdapter.notifyDataSetChanged();
+                    }
 
                 }
             }
@@ -102,6 +119,7 @@ public class employeeDirectory extends Activity {
             }
         });
 
+        //Opens new activity when name is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
