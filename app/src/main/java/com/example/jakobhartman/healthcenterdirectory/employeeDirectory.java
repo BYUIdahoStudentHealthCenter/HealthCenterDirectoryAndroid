@@ -8,10 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-
-import com.firebase.client.Firebase;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -24,6 +25,8 @@ import localDatabase.EmployeeContact;
 public class employeeDirectory extends Activity {
     Spinner spinner;
     ListView listView;
+    Button searchButton;
+    EditText searchText;
     customListViewAdapter listAdapter;
     ArrayList<String> filters;
     ArrayList<String> employeeList;
@@ -45,8 +48,10 @@ public class employeeDirectory extends Activity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.listView);
+        searchButton = (Button) findViewById(R.id.button2);
+        searchText = (EditText) findViewById(R.id.editText);
 
-        filters.add("Department");
+        filters.add("All");
         employeeList.add("Contact");
         position.add("Position");
 
@@ -112,11 +117,48 @@ public class employeeDirectory extends Activity {
                     }
 
                 }
+
+                //When someone selects a department, clear the text
+                searchText.setText("");
+                searchText.clearFocus();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
+        });
+
+        //When the button is clicked, search by name
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String textSearch = searchText.getText().toString().toLowerCase();
+                searchText.clearFocus();
+                Toast.makeText(employeeDirectory.this,textSearch,Toast.LENGTH_SHORT).show();
+                EmployeeContact employ = new EmployeeContact();
+                List<EmployeeContact> getDepartmentList = employ.getAllEmployees();
+
+                employeeList.clear();
+                position.clear();
+                mainList.clear(); //NEW
+                employeeList.add("Contact");
+                position.add("Position");
+
+                for(EmployeeContact person : getDepartmentList){
+
+                    if (person.firstName.toLowerCase().startsWith(textSearch))
+                    {
+                        employeeList.add(person.firstName + " " + person.lastName);
+                        position.add(person.position);
+                        mainList.add(person); //NEW
+
+                    }
+                    listAdapter.notifyDataSetChanged();
+
+                }
+
+            }
+
         });
 
         //Opens new activity when name is clicked
