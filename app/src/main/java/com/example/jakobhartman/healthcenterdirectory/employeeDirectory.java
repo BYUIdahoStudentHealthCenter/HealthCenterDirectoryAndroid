@@ -134,7 +134,7 @@ public class employeeDirectory extends Activity {
 
                 String textSearch = searchText.getText().toString().toLowerCase();
                 searchText.clearFocus();
-                Toast.makeText(employeeDirectory.this,textSearch,Toast.LENGTH_SHORT).show();
+                Toast.makeText(employeeDirectory.this,searchText.getText().toString(),Toast.LENGTH_SHORT).show();
                 EmployeeContact employ = new EmployeeContact();
                 List<EmployeeContact> getDepartmentList = employ.getAllEmployees();
 
@@ -166,19 +166,21 @@ public class employeeDirectory extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                EmployeeContact details = mainList.get(position-1); //doesn't account for filtered searches
-                intent.putExtra("department", details.department);
-                intent.putExtra("department_email", details.departmentEmail);
-                intent.putExtra("department_number", details.departmentNumber);
-                intent.putExtra("first_name", details.firstName);
-                intent.putExtra("last_name", details.lastName);
-                intent.putExtra("personal_email", details.personalEmail);
-                intent.putExtra("phone_number", details.phoneNumber);
-                intent.putExtra("position", details.position);
-                intent.putExtra("status", details.status);
-                intent.putExtra("tier", details.tier);
+                if (position != 0) {
+                    EmployeeContact details = mainList.get(position - 1);
+                    intent.putExtra("department", details.department);
+                    intent.putExtra("department_email", details.departmentEmail);
+                    intent.putExtra("department_number", details.departmentNumber);
+                    intent.putExtra("first_name", details.firstName);
+                    intent.putExtra("last_name", details.lastName);
+                    intent.putExtra("personal_email", details.personalEmail);
+                    intent.putExtra("phone_number", details.phoneNumber);
+                    intent.putExtra("position", details.position);
+                    intent.putExtra("status", details.status);
+                    intent.putExtra("tier", details.tier);
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
             }
         });
     }
