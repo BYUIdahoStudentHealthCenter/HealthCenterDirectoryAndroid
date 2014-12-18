@@ -1,11 +1,13 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -134,6 +136,11 @@ public class employeeDirectory extends Activity {
 
                 String textSearch = searchText.getText().toString().toLowerCase();
                 searchText.clearFocus();
+                // Hide the onscreen keyboard when the search button is pressed
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
+
                 Toast.makeText(employeeDirectory.this,searchText.getText().toString(),Toast.LENGTH_SHORT).show();
                 EmployeeContact employ = new EmployeeContact();
                 List<EmployeeContact> getDepartmentList = employ.getAllEmployees();
