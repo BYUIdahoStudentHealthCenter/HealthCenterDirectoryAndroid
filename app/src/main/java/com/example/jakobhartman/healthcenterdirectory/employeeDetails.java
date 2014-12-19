@@ -3,18 +3,26 @@ package com.example.jakobhartman.healthcenterdirectory;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import localDatabase.EmployeeContact;
+import localDatabase.Pictures;
 
 /**
  * Created by chad on 11/13/14.
@@ -28,10 +36,31 @@ public class employeeDetails extends Activity {
         ArrayList<String> description = new ArrayList<String>();
         ArrayList<String> details = new ArrayList<String>();
         ListView list = (ListView) findViewById(R.id.listView);
-        Intent intent = getIntent(); //Gets the extra data passed in the intent
+        ImageView profilePic = (ImageView) findViewById(R.id.imageView);
+        TextView label = (TextView) findViewById(R.id.textView2);
 
-        description.add("First Name");
-        description.add("Last Name");
+        Pictures picturedb = new Pictures();
+
+
+        Intent intent = getIntent(); //Gets the extra data passed in the intent
+        String fullname = intent.getStringExtra("first_name") + " "+ intent.getStringExtra("last_name");
+
+
+        Pictures pic = picturedb.getProfilePic(fullname);
+
+        if (pic != null) {
+            Log.i("Picture string", pic.image); //test to see what pic is
+            try {
+                byte[] decodedString = Base64.decode(pic.image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                profilePic.setImageBitmap(decodedByte);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        label.setText(fullname);
+       // description.add("Name");
         description.add("Department");
         description.add("Department Email");
         description.add("Department Number");
@@ -41,8 +70,7 @@ public class employeeDetails extends Activity {
         description.add("Status");
         description.add("Tier");
 
-        details.add(intent.getStringExtra("first_name"));
-        details.add(intent.getStringExtra("last_name"));
+        //details.add(fullname);
         details.add(intent.getStringExtra("department"));
         details.add(intent.getStringExtra("department_email"));
         details.add(intent.getStringExtra("department_number"));

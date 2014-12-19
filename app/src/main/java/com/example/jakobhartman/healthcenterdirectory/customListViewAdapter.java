@@ -2,6 +2,7 @@ package com.example.jakobhartman.healthcenterdirectory;
 
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class customListViewAdapter extends ArrayAdapter{
         View rowView= inflater.inflate(R.layout.row, null, true);
         TextView txtTitle1 = (TextView) rowView.findViewById(R.id.txt1);
         TextView txtTitle2 = (TextView) rowView.findViewById(R.id.txt2);
+
         txtTitle1.setText(txt1.get(position));
         txtTitle2.setText(txt2.get(position));
         return rowView;

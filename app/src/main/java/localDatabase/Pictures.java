@@ -29,6 +29,9 @@ public class Pictures extends HealthcenterModel {
     public List<Pictures>getPictures(){
         return new Select().from(Pictures.class).execute();
     }
+    public Pictures getProfilePic(String picName){
+        return new Select().from(Pictures.class).where("name = ?",picName).executeSingle();
+    }
 
 
 }

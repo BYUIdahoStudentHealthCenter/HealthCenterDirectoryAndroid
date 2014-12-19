@@ -28,8 +28,8 @@ public class MainMenu extends Activity {
 
     //Our own public function
     public void goToSettings(MenuItem item){
-        final Intent intent3 = new Intent(this, settings.class);
-        startActivity(intent3);
+        final Intent intent4 = new Intent(this, settings.class);
+        startActivity(intent4);
     }
 
     @Override
@@ -47,16 +47,16 @@ public class MainMenu extends Activity {
          employees = persons.getAllEmployees();
         ArrayList<String> values = new ArrayList<String>();
         if(departments.size() < 1){
-            values.add("No Data...");
+            values.add("Needs to sync...");
 
         }
         else{
             values.add("Department Directory");
         }
         if(employees.size() < 1){
-            values.add("No Data...");
-            values.add("No Data...");
-            values.add("No Data...");
+            values.add("Needs to sync...");
+            values.add("Needs to sync...");
+            values.add("Needs to sync...");
         }
         else{
             values.add("Employee Directory");
@@ -64,7 +64,7 @@ public class MainMenu extends Activity {
             values.add("Photo Directory");
         }
         // Defined Array values to show in ListView
-        values.add("Sync/Settings");
+        values.add("Sign In/Sync");
 
         // Define a new Adapter
         // First parameter - Context
