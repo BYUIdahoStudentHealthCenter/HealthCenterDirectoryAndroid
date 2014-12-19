@@ -1,5 +1,6 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,10 @@ public class centerDetails extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         contactNames = new ArrayList<String>();
         phoneNumbers = new ArrayList<String>();
         setContentView(R.layout.activity_center_details);
@@ -77,5 +82,19 @@ public class centerDetails extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Intent  getParentActivityIntent()  {
+        Intent parentIntent = getIntent();
+        String className = parentIntent.getStringExtra("ParentClassName");
+
+        Intent newIntent = null;
+        try {
+            newIntent = new Intent(centerDetails.this,Class.forName("com.example.jakobhartman.healthcenterdirectory."+className));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return newIntent;
     }
 }

@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,11 +17,19 @@ public class loginInfo extends Model{
     public String username;
     @Column(name = "password")
     public String password;
+    @Column(name = "lastLogIn")
+    public Date lastLogIn;
 
-    public loginInfo() {super();}
+    public loginInfo() {
+        super();
+    }
 
     public List<loginInfo> getUsername(){
         return new Select().from(loginInfo.class).execute();
+    }
+
+    public loginInfo getLastLogIn(String user) {
+        return new Select().from(loginInfo.class).where("username = ?",user).executeSingle();
     }
 
 }

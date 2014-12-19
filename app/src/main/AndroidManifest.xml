@@ -27,11 +27,13 @@
         </activity>
         <activity
             android:name="com.example.jakobhartman.healthcenterdirectory.centerDirectory"
-            android:label="Center Directory" >
+            android:label="Center Directory"
+            android:parentActivityName=".MainMenu">
         </activity>
         <activity
             android:name="com.example.jakobhartman.healthcenterdirectory.employeeDirectory"
-            android:label="@string/title_activity_employee_directory" >
+            android:label="@string/title_activity_employee_directory"
+            android:parentActivityName=".MainMenu">
         </activity>
         <activity
             android:name="com.example.jakobhartman.healthcenterdirectory.emergencyList"
@@ -47,7 +49,7 @@
         </activity>
         <activity
             android:name="com.example.jakobhartman.healthcenterdirectory.employeeDetails"
-            android:label="Employee Details" >
+            android:label="Employee Details">
         </activity>
         <activity
             android:name="com.example.jakobhartman.healthcenterdirectory.photoDirectory"

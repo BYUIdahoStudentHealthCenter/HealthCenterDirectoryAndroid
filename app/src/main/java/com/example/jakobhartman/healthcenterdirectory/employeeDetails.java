@@ -1,11 +1,11 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -18,10 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
-import localDatabase.EmployeeContact;
 import localDatabase.Pictures;
 
 /**
@@ -32,6 +29,11 @@ public class employeeDetails extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_details);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
 
         ArrayList<String> description = new ArrayList<String>();
         ArrayList<String> details = new ArrayList<String>();
@@ -104,6 +106,8 @@ public class employeeDetails extends Activity {
         });
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -122,5 +126,18 @@ public class employeeDetails extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public Intent  getParentActivityIntent()  {
+        Intent parentIntent = getIntent();
+        String className = parentIntent.getStringExtra("ParentClassName");
+
+        Intent newIntent = null;
+        try {
+            newIntent = new Intent(employeeDetails.this,Class.forName("com.example.jakobhartman.healthcenterdirectory."+className));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return newIntent;
     }
 }

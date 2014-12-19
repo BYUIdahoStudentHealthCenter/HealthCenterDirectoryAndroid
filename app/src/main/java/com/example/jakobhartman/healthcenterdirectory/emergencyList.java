@@ -1,5 +1,6 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,9 @@ public class emergencyList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency_list);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         /************************************************************
          * Set up
@@ -82,6 +86,7 @@ public class emergencyList extends Activity {
          * Listener for clickable list
          ***********************************************************/
         final Intent intent = new Intent(this,employeeDetails.class);
+        intent.putExtra("ParentClassName","emergencyList");
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -124,5 +129,19 @@ public class emergencyList extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Intent  getParentActivityIntent()  {
+        Intent parentIntent = getIntent();
+        String className = parentIntent.getStringExtra("ParentClassName");
+
+        Intent newIntent = null;
+        try {
+            newIntent = new Intent(emergencyList.this,Class.forName("com.example.jakobhartman.healthcenterdirectory."+className));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return newIntent;
     }
 }

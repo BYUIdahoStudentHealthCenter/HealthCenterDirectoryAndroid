@@ -1,5 +1,6 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ public class photoDirectory extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_directory);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         gridView = (GridView) findViewById(R.id.gridView);
 
         ArrayList<ProPhoto> pictures = new ArrayList<ProPhoto>();
@@ -73,6 +78,20 @@ public class photoDirectory extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Intent  getParentActivityIntent()  {
+        Intent parentIntent = getIntent();
+        String className = parentIntent.getStringExtra("ParentClassName");
+
+        Intent newIntent = null;
+        try {
+            newIntent = new Intent(photoDirectory.this,Class.forName("com.example.jakobhartman.healthcenterdirectory."+className));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return newIntent;
     }
 
 }

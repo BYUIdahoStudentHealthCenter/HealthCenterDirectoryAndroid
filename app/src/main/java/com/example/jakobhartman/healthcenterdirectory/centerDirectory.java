@@ -1,5 +1,6 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,10 @@ public class centerDirectory extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_center_directory);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         contacts = new ArrayList<String>();
         contacts.add("Department");
         contacts.add("General");
@@ -61,6 +66,7 @@ public class centerDirectory extends Activity {
 
         // Get ListView object from xml
         final Intent intent = new Intent(this,centerDetails.class);
+        intent.putExtra("ParentClassName","centerDirectory");
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,4 +103,6 @@ public class centerDirectory extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

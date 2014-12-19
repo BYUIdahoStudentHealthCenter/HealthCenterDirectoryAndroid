@@ -1,5 +1,6 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +43,8 @@ public class employeeDirectory extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_directory);
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         filters = new ArrayList<String>();
         employeeList = new ArrayList<String>();
@@ -79,12 +82,13 @@ public class employeeDirectory extends Activity {
         spinner.setAdapter(adapter);
         listView.setAdapter(listAdapter);
         final Intent intent = new Intent(this,employeeDetails.class);
+        intent.putExtra("ParentClassName","employeeDirectory");
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 EmployeeContact employ = new EmployeeContact();
-                if(i != 0){
+                if (i != 0) {
                     String selected = filters.get(i);
 
                     //Results displayed based on selected category
@@ -95,14 +99,13 @@ public class employeeDirectory extends Activity {
                     employeeList.add("Contact");
                     position.add("Position");
 
-                    for(EmployeeContact person : getDepartmentList){
+                    for (EmployeeContact person : getDepartmentList) {
                         employeeList.add(person.firstName + " " + person.lastName);
                         position.add(person.position);
                         mainList.add(person); //NEW
                         listAdapter.notifyDataSetChanged();
                     }
-                }
-                else{
+                } else {
                     //Else, if they select "Department" it will display everyone
                     List<EmployeeContact> getDepartmentList = employ.getAllEmployees();
                     employeeList.clear();
@@ -111,7 +114,7 @@ public class employeeDirectory extends Activity {
                     employeeList.add("Contact");
                     position.add("Position");
 
-                    for(EmployeeContact person : getDepartmentList){
+                    for (EmployeeContact person : getDepartmentList) {
                         employeeList.add(person.firstName + " " + person.lastName);
                         position.add(person.position);
                         mainList.add(person); //NEW
@@ -124,6 +127,7 @@ public class employeeDirectory extends Activity {
                 searchText.setText("");
                 searchText.clearFocus();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -217,4 +221,5 @@ public class employeeDirectory extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

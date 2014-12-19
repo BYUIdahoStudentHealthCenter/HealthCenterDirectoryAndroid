@@ -1,5 +1,6 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,10 @@ public class settings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Firebase.setAndroidContext(this); // initialize firebase
 
     }
@@ -320,5 +325,19 @@ public class settings extends Activity {
     public void onBackPressed() {
         Intent intent = new Intent(this,MainMenu.class);
         startActivity(intent);
+    }
+
+    @Override
+    public Intent  getParentActivityIntent()  {
+        Intent parentIntent = getIntent();
+        String className = parentIntent.getStringExtra("ParentClassName");
+
+        Intent newIntent = null;
+        try {
+            newIntent = new Intent(settings.this,Class.forName("com.example.jakobhartman.healthcenterdirectory."+className));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return newIntent;
     }
 }

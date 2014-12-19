@@ -3,6 +3,7 @@ package com.example.jakobhartman.healthcenterdirectory;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +13,14 @@ import android.widget.ListView;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
 import localDatabase.Tier;
+import localDatabase.loginInfo;
 
 import static android.widget.Toast.*;
 
@@ -29,6 +33,7 @@ public class MainMenu extends Activity {
     //Our own public function
     public void goToSettings(MenuItem item){
         final Intent intent4 = new Intent(this, settings.class);
+        intent4.putExtra("ParentClassName","MainMenu");
         startActivity(intent4);
     }
 
@@ -36,6 +41,20 @@ public class MainMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu); //Set the view
+
+        loginInfo user = new loginInfo();
+        List<loginInfo> userList = user.getUsername();
+
+        Date lastSync = userList.get(0).lastLogIn;
+        Calendar syncDate = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        syncDate.setTime(lastSync);
+
+        int todayMonth = today.get(Calendar.MONTH);
+        int syncMonth = syncDate.get(Calendar.MONTH);
+
+
+        Log.i("SyncMonth", " "+syncMonth);
 
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
@@ -80,10 +99,15 @@ public class MainMenu extends Activity {
         listView.setAdapter(adapter);
 
         final Intent intent0 = new Intent(this, centerDirectory.class);
+        intent0.putExtra("ParentClassName","MainMenu");
         final Intent intent1 = new Intent(this, employeeDirectory.class);
+        intent1.putExtra("ParentClassName","MainMenu");
         final Intent intent2 = new Intent(this, emergencyList.class);
+        intent2.putExtra("ParentClassName","MainMenu");
         final Intent intent3 = new Intent(this, photoDirectory.class);
+        intent3.putExtra("ParentClassName","MainMenu");
         final Intent intent4 = new Intent(this, settings.class);
+        intent4.putExtra("ParentClassName","MainMenu");
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
