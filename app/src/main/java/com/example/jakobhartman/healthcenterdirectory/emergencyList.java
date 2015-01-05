@@ -46,7 +46,7 @@ public class emergencyList extends Activity {
         /************************************************************
          * Get username and tier associated with it
          ***********************************************************/
-        List<loginInfo> username = storeUsername.getUsername();
+        List<loginInfo> username = storeUsername.getAll();
         System.out.println(username.get(0).username);
         List<EmployeeContact> parentTier = getDatabase.getTier(username.get(0).username);
         System.out.println(parentTier.get(0).tier.toString());

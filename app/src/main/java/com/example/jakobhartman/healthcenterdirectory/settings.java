@@ -19,6 +19,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
 import localDatabase.Pictures;
@@ -103,7 +106,7 @@ public class settings extends Activity {
                         newContact.tier = data.child("Tier").getValue().toString();
                         newContact.save();
                         i++;
-
+                        Log.i("Employee ", newContact.firstName);
                     }
                     ActiveAndroid.setTransactionSuccessful();
                     TextView textView =(TextView) findViewById(R.id.textView);
@@ -278,6 +281,8 @@ public class settings extends Activity {
                 loginInfo storeUsername = new loginInfo();
                 storeUsername.username = username;
                 storeUsername.password = password;
+                Calendar syncDate = new GregorianCalendar();
+                storeUsername.lastLogIn = syncDate;
                 storeUsername.save();
                 syncWithDatabase();
                 finish();

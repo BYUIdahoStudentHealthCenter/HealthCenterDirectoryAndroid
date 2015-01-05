@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +19,13 @@ public class loginInfo extends Model{
     @Column(name = "password")
     public String password;
     @Column(name = "lastLogIn")
-    public Date lastLogIn;
+    public Calendar lastLogIn;
 
     public loginInfo() {
         super();
     }
 
-    public List<loginInfo> getUsername(){
+    public List<loginInfo> getAll(){
         return new Select().from(loginInfo.class).execute();
     }
 

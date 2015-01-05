@@ -1,6 +1,8 @@
 package com.example.jakobhartman.healthcenterdirectory;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,15 +12,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+
+import com.activeandroid.query.Delete;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import localDatabase.DepartmentContact;
 import localDatabase.EmployeeContact;
+import localDatabase.Pictures;
 import localDatabase.Tier;
 import localDatabase.loginInfo;
 
@@ -42,19 +48,49 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu); //Set the view
 
-        loginInfo user = new loginInfo();
-        List<loginInfo> userList = user.getUsername();
-
-        Date lastSync = userList.get(0).lastLogIn;
-        Calendar syncDate = Calendar.getInstance();
-        Calendar today = Calendar.getInstance();
-        syncDate.setTime(lastSync);
-
-        int todayMonth = today.get(Calendar.MONTH);
-        int syncMonth = syncDate.get(Calendar.MONTH);
+        try{
+            // Get syncDate
+            loginInfo user = new loginInfo();
+            List<loginInfo> userList = user.getAll();
+            Calendar lastSync = userList.get(0).lastLogIn;
 
 
-        Log.i("SyncMonth", " "+syncMonth);
+            // Get current date
+            Calendar today = new GregorianCalendar();
+            Calendar expDate = lastSync;
+
+            expDate.add(Calendar.DAY_OF_MONTH, 30);
+
+            if (expDate.compareTo(today) < 0) //returns less than 0 if first date is before second date
+            {
+                //Alert the user that they need to sync to get their data back
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setMessage("You need to sync");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alert1 = builder1.create();
+                alert1.show();
+
+                new Delete().from(DepartmentContact.class).execute();
+                new Delete().from(EmployeeContact.class).execute();
+                new Delete().from(Pictures.class).execute();
+            }
+
+
+
+            Log.i("Expire month", " " + expDate.get(Calendar.MONTH));
+            Log.i("Expire day", " " + expDate.get(Calendar.DAY_OF_MONTH));
+            Log.i("Expire Year", " " + expDate.get(Calendar.YEAR));
+
+        } catch (Exception e){
+
+        }
+
 
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
