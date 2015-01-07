@@ -87,13 +87,13 @@ public class employeeDetails extends Activity {
         list.setAdapter(customList);
 
         final Intent call = new Intent(Intent.ACTION_DIAL);
-        call.setData(Uri.parse("tel:"+details.get(6)));
+        call.setData(Uri.parse("tel:"+details.get(4)));
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-               if (position == 6) {
+               if (position == 4) {
                    try {
                        startActivity(call);
                        finish();

@@ -19,7 +19,7 @@ public class loginInfo extends Model{
     @Column(name = "password")
     public String password;
     @Column(name = "lastLogIn")
-    public Calendar lastLogIn;
+    public Calendar lastLogIn; // lastSync will actually the expiration date
 
     public loginInfo() {
         super();

@@ -52,14 +52,12 @@ public class MainMenu extends Activity {
             // Get syncDate
             loginInfo user = new loginInfo();
             List<loginInfo> userList = user.getAll();
-            Calendar lastSync = userList.get(0).lastLogIn;
+            Calendar expDate = userList.get(0).lastLogIn;
 
 
             // Get current date
             Calendar today = new GregorianCalendar();
-            Calendar expDate = lastSync;
 
-            expDate.add(Calendar.DAY_OF_MONTH, 30);
 
             if (expDate.compareTo(today) < 0) //returns less than 0 if first date is before second date
             {
@@ -119,7 +117,7 @@ public class MainMenu extends Activity {
             values.add("Photo Directory");
         }
         // Defined Array values to show in ListView
-        values.add("Sign In/Sync");
+        values.add("Sync");
 
         // Define a new Adapter
         // First parameter - Context

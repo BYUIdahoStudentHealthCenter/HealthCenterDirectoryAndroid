@@ -160,7 +160,6 @@ public class settings extends Activity {
 
                 /*********************************
                  *  Add statements to insert to Database
-                 *
                  ***********************************/
 
                 ActiveAndroid.beginTransaction();
@@ -281,11 +280,12 @@ public class settings extends Activity {
                 loginInfo storeUsername = new loginInfo();
                 storeUsername.username = username;
                 storeUsername.password = password;
-                Calendar syncDate = new GregorianCalendar();
-                storeUsername.lastLogIn = syncDate;
+                Calendar expDate = new GregorianCalendar();
+                expDate.add(Calendar.DAY_OF_MONTH,30);
+                storeUsername.lastLogIn = expDate;
                 storeUsername.save();
                 syncWithDatabase();
-                finish();
+                //finish();
 
             }
 
