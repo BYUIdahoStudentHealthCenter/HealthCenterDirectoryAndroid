@@ -20,6 +20,12 @@ public class photoDirectory extends Activity {
     private GridView gridView;
     private GridViewAdapter customGridAdapter;
 
+    //Our own public function
+    public void goToSettings(MenuItem item){
+        final Intent intent4 = new Intent(this, settings.class);
+        startActivity(intent4);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
