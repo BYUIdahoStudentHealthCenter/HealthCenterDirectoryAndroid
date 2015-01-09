@@ -16,7 +16,7 @@ import java.util.List;
 
 import localDatabase.Pictures;
 
-
+//This class was an experiment for using threads. Doesn't really help split up the work
 public class photoDirectory extends Activity implements Runnable{
     private GridView gridView;
     private GridViewAdapter customGridAdapter;
@@ -37,7 +37,6 @@ public class photoDirectory extends Activity implements Runnable{
         gridView = (GridView) findViewById(R.id.gridView);
 
         this.start();
-
     }
 
     // When the thread runs
@@ -70,7 +69,6 @@ public class photoDirectory extends Activity implements Runnable{
             photoThread.start();
         }
     }
-
 
     @Override
     public Intent  getParentActivityIntent()  {
