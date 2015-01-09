@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +17,14 @@ import java.util.List;
 import localDatabase.Pictures;
 
 
-public class photoDirectory extends Activity {
+public class photoDirectory extends Activity implements Runnable{
     private GridView gridView;
     private GridViewAdapter customGridAdapter;
+    private Thread photoThread;
+    private String threadName = "photo thread";
+    ArrayList<ProPhoto> pictures = new ArrayList<ProPhoto>();
+    Pictures picturedb = new Pictures();
+    List<Pictures> pictureData = picturedb.getPictures();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +36,13 @@ public class photoDirectory extends Activity {
 
         gridView = (GridView) findViewById(R.id.gridView);
 
-        ArrayList<ProPhoto> pictures = new ArrayList<ProPhoto>();
+        this.start();
 
-        Pictures picturedb = new Pictures();
-        List<Pictures> pictureData = picturedb.getPictures();
+    }
 
-
+    // When the thread runs
+    public void run() {
+        Log.i("Thread", "Started Running thread");
         for (Pictures pic : pictureData) {
             ProPhoto photo = new ProPhoto();
             photo.setImage(pic.image);
@@ -54,6 +61,14 @@ public class photoDirectory extends Activity {
 
             }
         });
+    }
+
+    public void start() {
+        if (photoThread == null)
+        {
+            photoThread = new Thread (this, threadName);
+            photoThread.start();
+        }
     }
 
 
