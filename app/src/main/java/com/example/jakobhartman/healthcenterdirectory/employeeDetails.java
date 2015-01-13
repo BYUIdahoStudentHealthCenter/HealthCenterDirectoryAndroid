@@ -35,8 +35,6 @@ public class employeeDetails extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
-
         ArrayList<String> description = new ArrayList<String>();
         ArrayList<String> details = new ArrayList<String>();
         ListView list = (ListView) findViewById(R.id.listView);
@@ -45,10 +43,8 @@ public class employeeDetails extends Activity {
 
         Pictures picturedb = new Pictures();
 
-
         Intent intent = getIntent(); //Gets the extra data passed in the intent
         String fullname = intent.getStringExtra("first_name") + " "+ intent.getStringExtra("last_name");
-
 
         Pictures pic = picturedb.getProfilePic(fullname);
 

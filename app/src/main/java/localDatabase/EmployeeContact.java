@@ -67,6 +67,10 @@ public class EmployeeContact extends HealthcenterModel {
         return new Select().from(EmployeeContact.class).execute();
     }
 
+    public EmployeeContact getContactByFullName(String fname, String lname) {
+        return new Select().from(EmployeeContact.class).where("firstName='" + fname +"' and lastName='" + lname + "'").executeSingle();
+    }
+
 
 
 }
