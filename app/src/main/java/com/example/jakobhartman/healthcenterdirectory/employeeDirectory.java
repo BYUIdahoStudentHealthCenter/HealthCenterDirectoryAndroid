@@ -157,8 +157,8 @@ public class employeeDirectory extends Activity {
                 position.add("Position");
 
                 for(EmployeeContact person : getDepartmentList){
-
-                    if (person.firstName.toLowerCase().startsWith(textSearch))
+                    //Searches for letters in firstname
+                    if (person.firstName.toLowerCase().startsWith(textSearch) || person.lastName.toLowerCase().startsWith(textSearch))
                     {
                         employeeList.add(person.firstName + " " + person.lastName);
                         position.add(person.position);
