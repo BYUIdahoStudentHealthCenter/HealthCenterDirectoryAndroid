@@ -102,12 +102,12 @@ public class MainMenu extends Activity {
         if(employees.size() < 1){
             values.add("Needs to sync...");
             values.add("Needs to sync...");
-            values.add("Needs to sync...");
+           // values.add("Needs to sync...");
         }
         else{
             values.add("Employee Directory");
             values.add("Emergency Calling Tree");
-            values.add("Photo Directory");
+           // values.add("Photo Directory");
         }
         // Defined Array values to show in ListView
         values.add("Sync");
@@ -167,11 +167,6 @@ public class MainMenu extends Activity {
 
                         break;
                     case 3:
-                        if(employees.size() > 0) {
-                            startActivity(intent3);
-                        }
-                        break;
-                    case 4:
                         startActivity(intent4);
                         break;
                 }
