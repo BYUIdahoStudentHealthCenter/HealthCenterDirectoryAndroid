@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
@@ -31,10 +32,24 @@ import localDatabase.loginInfo;
 
 public class settings extends Activity {
     int i= 0;
+    TextView textView;
+    ProgressBar progressBar;
+    ProgressBar progressSpinner;
+    int progress = 0;
+    Boolean employeeFinish = false;
+    Boolean photoFinish = false;
+    Boolean tierFinish = false;
+    Boolean deptFinish = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        textView =(TextView) findViewById(R.id.textView);
+        progressBar = (ProgressBar) findViewById((R.id.progressBar));
+        progressSpinner = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.INVISIBLE);
+        progressSpinner.setVisibility(View.INVISIBLE);
+        progressBar.setMax(4);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -47,18 +62,19 @@ public class settings extends Activity {
         Firebase ref = new Firebase("https://boiling-fire-7455.firebaseio.com/CenterNumbers");
         Firebase employees = new Firebase("https://boiling-fire-7455.firebaseio.com/Employee");
         Firebase tiers = new Firebase ("https://boiling-fire-7455.firebaseio.com/Tier");
-        Firebase picRef = new Firebase ("https://boiling-fire-7455.firebaseio.com/Images");
+        final Firebase picRef = new Firebase ("https://boiling-fire-7455.firebaseio.com/Images");
         new Delete().from(DepartmentContact.class).execute();
         new Delete().from(EmployeeContact.class).execute();
         new Delete().from(Tier.class).execute();
         new Delete().from(Pictures.class).execute();
 
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 ActiveAndroid.beginTransaction();
                 try {
+
                     for(DataSnapshot data : dataSnapshot.getChildren()){
                         for (DataSnapshot contact : data.getChildren()){
 
@@ -74,9 +90,11 @@ public class settings extends Activity {
                 }
                 finally {
                     ActiveAndroid.endTransaction();
+
                 }
-                TextView textView =(TextView) findViewById(R.id.textView);
-                textView.setText("Found " + i + " Contacts");
+                deptFinish = true;
+                progress++;
+                checkIfDone(progress);
             }
 
             @Override
@@ -86,12 +104,14 @@ public class settings extends Activity {
         });
 
         employees.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ActiveAndroid.beginTransaction();
-                try {
-                    for(DataSnapshot data : dataSnapshot.getChildren()){
 
+                try {
+
+                    for(DataSnapshot data : dataSnapshot.getChildren()){
                         EmployeeContact newContact = new EmployeeContact();
                         newContact.department = data.child("Department").getValue().toString();
                         newContact.departmentEmail = data.child("Department_Email").getValue().toString();
@@ -109,8 +129,8 @@ public class settings extends Activity {
                         Log.i("Employee ", newContact.firstName);
                     }
                     ActiveAndroid.setTransactionSuccessful();
-                    TextView textView =(TextView) findViewById(R.id.textView);
-                    textView.setText("Found " + i + " Contacts");
+
+
                 }
                 catch (Exception e)
                 {
@@ -119,33 +139,9 @@ public class settings extends Activity {
                 finally {
                     ActiveAndroid.endTransaction();
                 }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-
-        picRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ActiveAndroid.beginTransaction();
-                try {
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        Pictures pictures = new Pictures();
-                        pictures.name = data.child("Name").getValue().toString();
-                        pictures.image = data.child("imageData").getValue().toString();
-                        pictures.save();
-                    }
-                    ActiveAndroid.setTransactionSuccessful();
-                }
-                catch (Exception e) {
-                    System.out.println("There was an error saving pictures to local database");
-                }
-                finally {
-                    ActiveAndroid.endTransaction();
-                }
+                employeeFinish = true;
+                progress++;
+                checkIfDone(progress);
             }
 
             @Override
@@ -164,6 +160,7 @@ public class settings extends Activity {
 
                 ActiveAndroid.beginTransaction();
                 try {
+
                     DataSnapshot start = dataSnapshot.child("1");
                     Tier myTier = new Tier();
                     myTier.parent = "";
@@ -255,6 +252,9 @@ public class settings extends Activity {
                 finally {
                     ActiveAndroid.endTransaction();
                 }
+                tierFinish = true;
+                progress++;
+                checkIfDone(progress);
             }
 
             @Override
@@ -263,9 +263,51 @@ public class settings extends Activity {
             }
         });
 
+        picRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ActiveAndroid.beginTransaction();
+                try {
+                    int i = 0;
+
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        textView.setText("Downloading Employee Photos...");
+                        Pictures pictures = new Pictures();
+                        pictures.name = data.child("Name").getValue().toString();
+                        pictures.image = data.child("imageData").getValue().toString();
+                        pictures.save();
+                        i++;
+                    }
+                    textView.setText("Downloading...");
+
+                    ActiveAndroid.setTransactionSuccessful();
+
+                }
+                catch (Exception e) {
+                    System.out.println("There was an error saving pictures to local database");
+                }
+                finally {
+                    ActiveAndroid.endTransaction();
+
+                }
+                photoFinish = true;
+                progress++;
+                checkIfDone(progress);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
+
     }
     int p = 0;
     public void loginAndSync(View v){
+        progressBar.setVisibility(View.VISIBLE);
+        progressSpinner.setVisibility(View.VISIBLE);
         EditText usernameText = (EditText) findViewById(R.id.editText1);
         final String username = usernameText.getText().toString();
 
@@ -285,7 +327,6 @@ public class settings extends Activity {
                 storeUsername.lastLogIn = expDate;
                 storeUsername.save();
                 syncWithDatabase();
-                //finish();
 
             }
 
@@ -306,6 +347,9 @@ public class settings extends Activity {
 
             }
         });
+
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -344,5 +388,28 @@ public class settings extends Activity {
             e.printStackTrace();
         }
         return newIntent;
+    }
+
+    void checkIfDone(int progress) {
+
+        progressBar.setProgress(progress);
+
+        switch (progress) {
+            case 0: textView.setText("Downloading Directories");
+                break;
+            case 1: textView.setText("Downloading Contacts");
+                break;
+            case 2: textView.setText("Downloading Tiers");
+                break;
+            case 3: textView.setText("Downloading Images");
+                break;
+        }
+
+        if (photoFinish == true && employeeFinish == true && tierFinish == true && deptFinish == true) {
+
+            progressBar.setVisibility(View.INVISIBLE);
+            progressSpinner.setVisibility(View.INVISIBLE);
+            textView.setText("Finished");
+        }
     }
 }
