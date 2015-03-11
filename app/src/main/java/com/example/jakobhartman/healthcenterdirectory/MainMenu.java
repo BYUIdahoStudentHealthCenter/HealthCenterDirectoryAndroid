@@ -101,12 +101,12 @@ public class MainMenu extends Activity {
         }
         if(employees.size() < 1){
             values.add("Needs to sync...");
-            values.add("Needs to sync...");
+           // values.add("Needs to sync...");
            // values.add("Needs to sync...");
         }
         else{
             values.add("Employee Directory");
-            values.add("Emergency Calling Tree");
+           // values.add("Emergency Calling Tree");
            // values.add("Photo Directory");
         }
         // Defined Array values to show in ListView
@@ -160,13 +160,8 @@ public class MainMenu extends Activity {
                         }
 
                         break;
-                    case 2:
-                        if(employees.size() > 0){
-                            startActivity(intent2);
-                        }
 
-                        break;
-                    case 3:
+                    case 2:
                         startActivity(intent4);
                         break;
                 }
